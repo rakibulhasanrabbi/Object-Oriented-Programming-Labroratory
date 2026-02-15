@@ -1,69 +1,64 @@
-// Rectangle class
-class Rectangle {
-    // Private instance variables
-    private double length;
-    private double width;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
-    // Constructor to initialize length and width
-    public Rectangle(double length, double width) {
-        this.length = length;
-        this.width = width;
-    }
-
-    // Getter methods to access private variables
-    public double getLength() {
-        return length;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
-    // Method to calculate area
-    public double area() {
-        return length * width;
-    }
-
-    // Method to calculate perimeter
-    public double perimeter() {
-        return 2 * (length + width);
-    }
-}
-
-// Square class that inherits from Rectangle
-class Square extends Rectangle {
-
-    // Constructor
-    public Square(double side) {
-        super(side, side); // Initialize length and width using Rectangle constructor
-    }
-
-    // Override area method
-    @Override
-    public double area() {
-        double side = getLength(); // Access private variable using getter
-        return side * side;
-    }
-
-    // Override perimeter method
-    @Override
-    public double perimeter() {
-        double side = getLength(); // Access private variable using getter
-        return 4 * side;
-    }
-}
-
-// Main class to test functionality
-public class Main {
+public class CalculatorGUI {
     public static void main(String[] args) {
-        // Rectangle object
-        Rectangle rect = new Rectangle(5, 3);
-        System.out.println("Rectangle Area: " + rect.area());
-        System.out.println("Rectangle Perimeter: " + rect.perimeter());
+        // Create the main frame
+        JFrame frame = new JFrame("Simple Calculator");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(350, 200);
+        frame.setLayout(new BorderLayout());
 
-        // Square object
-        Square sq = new Square(4);
-        System.out.println("Square Area: " + sq.area());
-        System.out.println("Square Perimeter: " + sq.perimeter());
+        // Top panel for input fields
+        JPanel inputPanel = new JPanel();
+        JTextField num1Field = new JTextField(5);
+        JTextField num2Field = new JTextField(5);
+        inputPanel.add(num1Field);
+        inputPanel.add(num2Field);
+        frame.add(inputPanel, BorderLayout.NORTH);
+
+        // Middle panel for + and - buttons
+        JPanel buttonPanel = new JPanel();
+        JButton addButton = new JButton("+");
+        JButton subButton = new JButton("-");
+        buttonPanel.add(addButton);
+        buttonPanel.add(subButton);
+        frame.add(buttonPanel, BorderLayout.CENTER);
+
+        // Label at the bottom for result
+        JLabel resultLabel = new JLabel("Result: ", SwingConstants.CENTER);
+        frame.add(resultLabel, BorderLayout.SOUTH);
+
+        // Event for + button
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int num1 = Integer.parseInt(num1Field.getText());
+                    int num2 = Integer.parseInt(num2Field.getText());
+                    int sum = num1 + num2;
+                    resultLabel.setText("Result: " + sum);
+                } catch (NumberFormatException ex) {
+                    resultLabel.setText("Please enter valid numbers!");
+                }
+            }
+        });
+
+        // Event for - button
+        subButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int num1 = Integer.parseInt(num1Field.getText());
+                    int num2 = Integer.parseInt(num2Field.getText());
+                    int diff = num1 - num2;
+                    resultLabel.setText("Result: " + diff);
+                } catch (NumberFormatException ex) {
+                    resultLabel.setText("Please enter valid numbers!");
+                }
+            }
+        });
+
+        // Make frame visible
+        frame.setVisible(true);
     }
 }
